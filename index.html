@@ -30,13 +30,15 @@
         font-size: 18px;
         color: #444;
         background: #fff3cd;
-        display: inline-block;
+        display: none;
         padding: 20px;
         border-radius: 12px;
         border: 2px solid #ffd24c;
         text-align: left;
         width: 60%;
         white-space: pre-line;
+        margin-left: auto;
+        margin-right: auto;
     }
     footer {
         margin-top: 40px;
@@ -61,6 +63,7 @@
         border-radius:15px;
         cursor:pointer;
         margin-top: 15px;
+        display:none;
     }
     .btn-secondary:hover {
         background-color:#48cae4;
@@ -71,50 +74,52 @@
 
 <h1>👩‍🏫 Teacher Feedback Generator</h1>
 
-<p>Student Name:</p>
-<input id="studentName" type="text" placeholder="Enter student name"><br><br>
+<div id="formContainer">
+    <p>Student Name:</p>
+    <input id="studentName" type="text" placeholder="Enter student name"><br><br>
 
-<p>Lesson Focus:</p>
-<select id="lessonFocus">
-    <option>Vocabulary</option>
-    <option>Phonics</option>
-    <option>Speaking</option>
-    <option>Storytelling</option>
-    <option>Games and Activities</option>
-</select>
+    <p>Lesson Focus:</p>
+    <select id="lessonFocus">
+        <option>Vocabulary</option>
+        <option>Phonics</option>
+        <option>Speaking</option>
+        <option>Storytelling</option>
+        <option>Games and Activities</option>
+    </select>
 
-<p>Participation Level:</p>
-<select id="participation">
-    <option>Very engaged 😀</option>
-    <option>Mostly focused 🙂</option>
-    <option>Needed some support 🤗</option>
-    <option>Very shy 😌</option>
-</select>
+    <p>Participation Level:</p>
+    <select id="participation">
+        <option>Very engaged 😀</option>
+        <option>Mostly focused 🙂</option>
+        <option>Needed some support 🤗</option>
+        <option>Very shy 😌</option>
+    </select>
 
-<p>Strength:</p>
-<select id="strength">
-    <option>Great pronunciation</option>
-    <option>Strong listening</option>
-    <option>Good memory</option>
-    <option>Loved sharing ideas</option>
-</select>
+    <p>Strength:</p>
+    <select id="strength">
+        <option>Great pronunciation</option>
+        <option>Strong listening</option>
+        <option>Good memory</option>
+        <option>Loved sharing ideas</option>
+    </select>
 
-<p>Next Step:</p>
-<select id="nextStep">
-    <option>Practice words at home</option>
-    <option>Listen to the story again</option>
-    <option>Review today’s song</option>
-    <option>Bring favorite toy to share next time</option>
-</select>
+    <p>Next Step:</p>
+    <select id="nextStep">
+        <option>Listen or read a short book and draw a picture about it/option>
+        <option>Look at a picture and voice record three things you see</option>
+        <option>Listen to an English song and draw what you hear</option>
+        <option>Bring favorite book to share next time</option>
+    </select>
 
-<p>Teacher's Comment:</p>
-<textarea id="teacherComment" placeholder="Write one short comment here..."></textarea>
+    <p>Teacher's Comment:</p>
+    <textarea id="teacherComment" placeholder="Write one short comment here..."></textarea>
 
-<br><br>
-<button onclick="generateTeacherFeedback()" class="btn-primary">Generate Feedback</button>
+    <br><br>
+    <button onclick="generateTeacherFeedback()" class="btn-primary">Generate Feedback</button>
+</div>
 
 <div id="summary"></div>
-<button onclick="copyFeedback()" class="btn-secondary" style="display:none;" id="copyBtn">📋 Copy Feedback</button>
+<button onclick="copyFeedback()" class="btn-secondary" id="copyBtn">📋 Copy Feedback</button>
 
 <footer>Created by <b>Young Learners Curriculum</b> © 2025</footer>
 
@@ -136,7 +141,11 @@ Next step: ${nextStep.toLowerCase()}.`;
     }
 
     document.getElementById("summary").innerText = feedback;
+    document.getElementById("summary").style.display = "block";
     document.getElementById("copyBtn").style.display = "inline-block";
+
+    // Hide form after generating feedback
+    document.getElementById("formContainer").style.display = "none";
 }
 
 function copyFeedback() {
