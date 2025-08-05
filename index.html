@@ -66,10 +66,12 @@
         margin-top: 0;
         color: #4b8bff;
     }
-    pre {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+    #editableFeedback {
+        width: 100%;
+        height: 200px;
+        font-size: 16px;
+        padding: 10px;
+        font-family: 'Comic Sans MS', cursive;
     }
     footer {
         margin-top: 20px;
@@ -194,7 +196,7 @@ function generateTeacherFeedback() {
         feedbackText += `\n\n💬 Teacher's Comment: ${teacherComment}`;
     }
 
-    document.getElementById("summary").innerHTML = `<h2>Feedback for ${name}</h2><pre>${feedbackText}</pre>`;
+    document.getElementById("summary").innerHTML = `<h2>Feedback for ${name}</h2><textarea id="editableFeedback">${feedbackText}</textarea>`;
     document.getElementById("summary").style.display = "block";
     document.getElementById("copyBtn").style.display = "inline-block";
 
@@ -202,7 +204,7 @@ function generateTeacherFeedback() {
 }
 
 function copyFeedback() {
-    const feedbackText = document.getElementById("summary").innerText;
+    const feedbackText = document.getElementById("editableFeedback").value;
     navigator.clipboard.writeText(feedbackText).then(() => {
         alert("✅ Feedback copied to clipboard!");
     });
