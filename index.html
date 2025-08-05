@@ -178,15 +178,20 @@ stars.forEach(star => {
     });
 });
 
+function capitalizeName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
 function generateTeacherFeedback() {
-    const name = document.getElementById("studentName").value.trim() || "The student";
+    let nameInput = document.getElementById("studentName").value.trim();
+    const name = nameInput ? capitalizeName(nameInput) : "The student";
     const focus = document.getElementById("lessonFocus").value;
     const participation = document.getElementById("participation").value;
     const strength = document.getElementById("strength").value;
     const nextStep = document.getElementById("nextStep").value;
     const teacherComment = document.getElementById("teacherComment").value.trim();
 
-    let feedbackText = `${name} had a ${participation.toLowerCase()} lesson today! \nThey did well in ${focus.toLowerCase()}, and ${name.toLowerCase()} showed ${strength.toLowerCase()}. \nNext step: ${nextStep.toLowerCase()}.`;
+    let feedbackText = `${name} had a ${participation.toLowerCase()} lesson today! \nThey did well in ${focus.toLowerCase()}, and ${name} showed ${strength.toLowerCase()}. \nNext step: ${nextStep.toLowerCase()}.`;
 
     if (selectedStars > 0) {
         feedbackText += `\n\n⭐ Lesson Rating: ${selectedStars}/5`;
@@ -204,10 +209,17 @@ function generateTeacherFeedback() {
 }
 
 function copyFeedback() {
-    const feedbackText = document.getElementById("editableFeedback").value;
-    navigator.clipboard.writeText(feedbackText).then(() => {
+    const editable = document.getElementById("editableFeedback");
+    editable.select();
+    editable.setSelectionRange(0, 99999); // mobile support
+
+    try {
+        document.execCommand("copy"); // Fallback
+        navigator.clipboard.writeText(editable.value).catch(()=>{});
         alert("✅ Feedback copied to clipboard!");
-    });
+    } catch (err) {
+        alert("❌ Could not copy. Please copy manually.");
+    }
 }
 </script>
 
