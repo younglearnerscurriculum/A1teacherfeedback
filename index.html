@@ -7,11 +7,25 @@
     body {
         background-color: #f0f8ff;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        text-align: center;
-        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
     }
     h1 {
         color: #4b8bff;
+        margin-bottom: 20px;
+    }
+    #formContainer {
+        background: #ffffffaa;
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        width: 70%;
+        max-width: 900px;
     }
     select, button, input, textarea {
         font-size: 18px;
@@ -20,10 +34,18 @@
         border-radius: 10px;
     }
     textarea {
-        width: 60%;
+        width: 80%;
         height: 80px;
         resize: none;
         font-family: 'Comic Sans MS', cursive;
+    }
+    #stars span {
+        font-size: 30px;
+        cursor: pointer;
+        color: #ccc;
+    }
+    #stars span.gold {
+        color: gold;
     }
     #summary {
         margin-top: 30px;
@@ -35,13 +57,22 @@
         border-radius: 12px;
         border: 2px solid #ffd24c;
         text-align: left;
-        width: 60%;
-        white-space: pre-line;
-        margin-left: auto;
-        margin-right: auto;
+        width: 70%;
+        max-width: 900px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    #summary h2 {
+        margin-top: 0;
+        color: #4b8bff;
+    }
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     footer {
-        margin-top: 40px;
+        margin-top: 20px;
         font-size: 14px;
         color: #888;
     }
@@ -76,14 +107,14 @@
 
 <div id="formContainer">
     <p>Student Name:</p>
-    <input id="studentName" type="text" placeholder="Enter student name"><br><br>
+    <input id="studentName" type="text" placeholder="Enter student name"><br>
 
-    <p>Lesson Focus:</p>
+    <p>What They Did Well:</p>
     <select id="lessonFocus">
-        <option>Vocabulary</option>
-        <option>Phonics</option>
+        <option>Tongue Twisters</option>
+        <option>Creating a Story</option>
         <option>Speaking</option>
-        <option>Storytelling</option>
+        <option>Drawing</option>
         <option>Games and Activities</option>
     </select>
 
@@ -105,16 +136,25 @@
 
     <p>Next Step:</p>
     <select id="nextStep">
-        <option>Listen or read a short book and draw a picture about it/option>
-        <option>Look at a picture and voice record three things you see</option>
-        <option>Listen to an English song and draw what you hear</option>
-        <option>Bring favorite book to share next time</option>
+        <option>Listen to a story and draw your favorite character</option>
+        <option>Look at a picture and voice record 3 things you see</option>
+        <option>Bring your favorite book to class next time</option>
+        <option>Voice record your story and send it to me</option>
     </select>
 
     <p>Teacher's Comment:</p>
     <textarea id="teacherComment" placeholder="Write one short comment here..."></textarea>
 
-    <br><br>
+    <p>Rate the Lesson:</p>
+    <div id="stars">
+        <span data-value="1">★</span>
+        <span data-value="2">★</span>
+        <span data-value="3">★</span>
+        <span data-value="4">★</span>
+        <span data-value="5">★</span>
+    </div>
+
+    <br>
     <button onclick="generateTeacherFeedback()" class="btn-primary">Generate Feedback</button>
 </div>
 
@@ -124,6 +164,18 @@
 <footer>Created by <b>Young Learners Curriculum</b> © 2025</footer>
 
 <script>
+let selectedStars = 0;
+const stars = document.querySelectorAll('#stars span');
+stars.forEach(star => {
+    star.addEventListener('click', function() {
+        selectedStars = this.getAttribute('data-value');
+        stars.forEach(s => s.classList.remove('gold'));
+        for (let i = 0; i < selectedStars; i++) {
+            stars[i].classList.add('gold');
+        }
+    });
+});
+
 function generateTeacherFeedback() {
     const name = document.getElementById("studentName").value.trim() || "The student";
     const focus = document.getElementById("lessonFocus").value;
@@ -132,19 +184,20 @@ function generateTeacherFeedback() {
     const nextStep = document.getElementById("nextStep").value;
     const teacherComment = document.getElementById("teacherComment").value.trim();
 
-    let feedback = `${name} had a ${participation.toLowerCase()} lesson today! 
-We focused on ${focus.toLowerCase()}, and ${name.toLowerCase()} showed ${strength.toLowerCase()}. 
-Next step: ${nextStep.toLowerCase()}.`;
+    let feedbackText = `${name} had a ${participation.toLowerCase()} lesson today! \nThey did well in ${focus.toLowerCase()}, and ${name.toLowerCase()} showed ${strength.toLowerCase()}. \nNext step: ${nextStep.toLowerCase()}.`;
 
-    if (teacherComment) {
-        feedback += `\n\n💬 Teacher's Comment: ${teacherComment}`;
+    if (selectedStars > 0) {
+        feedbackText += `\n\n⭐ Lesson Rating: ${selectedStars}/5`;
     }
 
-    document.getElementById("summary").innerText = feedback;
+    if (teacherComment) {
+        feedbackText += `\n\n💬 Teacher's Comment: ${teacherComment}`;
+    }
+
+    document.getElementById("summary").innerHTML = `<h2>Feedback for ${name}</h2><pre>${feedbackText}</pre>`;
     document.getElementById("summary").style.display = "block";
     document.getElementById("copyBtn").style.display = "inline-block";
 
-    // Hide form after generating feedback
     document.getElementById("formContainer").style.display = "none";
 }
 
