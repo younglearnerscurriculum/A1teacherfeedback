@@ -9,7 +9,6 @@
         font-family: 'Comic Sans MS', cursive, sans-serif;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
         align-items: center;
         min-height: 100vh;
         margin: 0;
@@ -18,89 +17,92 @@
     h1 {
         color: #4b8bff;
         margin-bottom: 20px;
+        font-size: 28px;
     }
-    #formContainer {
+    #formContainer, #summary {
         background: #ffffffaa;
         padding: 20px;
         border-radius: 20px;
-        text-align: center;
         width: 70%;
         max-width: 900px;
+        box-sizing: border-box;
     }
-    select, button, input, textarea {
-        font-size: 18px;
-        padding: 10px;
-        margin: 8px;
-        border-radius: 10px;
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 16px;
     }
-    textarea {
-        width: 80%;
-        height: 80px;
-        resize: none;
+    .form-group label {
+        font-size: 16px;
+        margin-bottom: 6px;
+        color: #333;
+    }
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        font-size: 16px;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
         font-family: 'Comic Sans MS', cursive;
     }
+    #stars {
+        display: flex;
+        gap: 5px;
+        margin: 8px 0;
+    }
     #stars span {
-        font-size: 30px;
+        font-size: 26px;
         cursor: pointer;
         color: #ccc;
     }
-    #stars span.gold {
+    #stars span.selected {
         color: gold;
     }
-    #summary {
-        margin-top: 30px;
-        font-size: 18px;
-        color: #444;
-        background: #fff3cd;
-        display: none;
-        padding: 20px;
-        border-radius: 12px;
-        border: 2px solid #ffd24c;
-        text-align: left;
-        width: 70%;
-        max-width: 900px;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-    }
-    #summary h2 {
-        margin-top: 0;
-        color: #4b8bff;
-    }
-    #editableFeedback {
-        width: 100%;
-        height: 200px;
-        font-size: 16px;
-        padding: 10px;
-        font-family: 'Comic Sans MS', cursive;
-    }
-    footer {
-        margin-top: 20px;
-        font-size: 14px;
-        color: #888;
-    }
     .btn-primary {
-        background-color:#4b8bff;
-        color:white;
-        font-size:20px;
-        border:none;
-        padding:12px 30px;
-        border-radius:20px;
-        cursor:pointer;
+        background-color: #4b8bff;
+        color: white;
+        font-size: 18px;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 18px;
+        cursor: pointer;
+        margin-top: 10px;
+        align-self: center;
     }
     .btn-secondary {
-        background-color:#90e0ef;
-        color:#000;
-        font-size:18px;
-        border:none;
-        padding:10px 25px;
-        border-radius:15px;
-        cursor:pointer;
-        margin-top: 15px;
-        display:none;
+        background-color: #90e0ef;
+        color: #000;
+        font-size: 16px;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        margin-top: 12px;
+        display: none;
     }
-    .btn-secondary:hover {
-        background-color:#48cae4;
+    .btn-secondary:hover { background-color: #48cae4; }
+    #editableFeedback {
+        width: 100%;
+        height: 180px;
+        font-size: 16px;
+        line-height: 1.4;
+        font-family: 'Comic Sans MS', cursive;
     }
+    #summary h2 {
+        font-size: 22px;
+        color: #4b8bff;
+        margin-bottom: 8px;
+    }
+    #summary .date {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 14px;
+    }
+    footer { margin-top: 20px; font-size: 12px; color: #888; text-align: center; }
 </style>
 </head>
 <body>
@@ -108,118 +110,123 @@
 <h1>👩‍🏫 Teacher Feedback Generator</h1>
 
 <div id="formContainer">
-    <p>Student Name:</p>
-    <input id="studentName" type="text" placeholder="Enter student name"><br>
-
-    <p>What They Did Well:</p>
-    <select id="lessonFocus">
-        <option>Tongue Twisters</option>
-        <option>Creating a Story</option>
-        <option>Speaking</option>
-        <option>Drawing</option>
-        <option>Games and Activities</option>
-    </select>
-
-    <p>Participation Level:</p>
-    <select id="participation">
-        <option>Very engaged 😀</option>
-        <option>Mostly focused 🙂</option>
-        <option>Needed some support 🤗</option>
-        <option>Very shy 😌</option>
-    </select>
-
-    <p>Strength:</p>
-    <select id="strength">
-        <option>Great pronunciation</option>
-        <option>Strong listening</option>
-        <option>Good memory</option>
-        <option>Loved sharing ideas</option>
-    </select>
-
-    <p>Next Step:</p>
-    <select id="nextStep">
-        <option>Listen to a story and draw your favorite character</option>
-        <option>Look at a picture and voice record 3 things you see</option>
-        <option>Bring your favorite book to class next time</option>
-        <option>Voice record your story and send it to me</option>
-    </select>
-
-    <p>Teacher's Comment:</p>
-    <textarea id="teacherComment" placeholder="Write one short comment here..."></textarea>
-
-    <p>Rate the Lesson:</p>
-    <div id="stars">
-        <span data-value="1">★</span>
-        <span data-value="2">★</span>
-        <span data-value="3">★</span>
-        <span data-value="4">★</span>
-        <span data-value="5">★</span>
+    <div class="form-group">
+        <label for="studentName">Student Name:</label>
+        <input id="studentName" type="text" placeholder="Enter student name">
     </div>
-
-    <br>
+    <div class="form-group">
+        <label for="lessonFocus">What They Did Well:</label>
+        <select id="lessonFocus">
+            <option>Tongue Twisters</option>
+            <option>Creating a Story</option>
+            <option>Speaking</option>
+            <option>Drawing</option>
+            <option>Games and Activities</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="participation">Participation Level:</label>
+        <select id="participation">
+            <option>was very engaged 😀</option>
+            <option>was mostly focused 🙂</option>
+            <option>needed some support 🤗</option>
+            <option>was very shy 😌</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="strength">Strength:</label>
+        <select id="strength">
+            <option>great pronunciation 🔊</option>
+            <option>strong listening skills 👂</option>
+            <option>good memory 🧠</option>
+            <option>enthusiastic sharing of ideas 💡</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="teacherComment">Teacher's Comment:</label>
+        <textarea id="teacherComment" placeholder="Write one short comment here..."></textarea>
+    </div>
+    <div class="form-group">
+        <label>Rate the Lesson:</label>
+        <div id="stars">
+            <span data-value="1">★</span>
+            <span data-value="2">★</span>
+            <span data-value="3">★</span>
+            <span data-value="4">★</span>
+            <span data-value="5">★</span>
+        </div>
+    </div>
     <button onclick="generateTeacherFeedback()" class="btn-primary">Generate Feedback</button>
 </div>
 
-<div id="summary"></div>
-<button onclick="copyFeedback()" class="btn-secondary" id="copyBtn">📋 Copy Feedback</button>
+<div id="summary">
+    <h2 id="summaryHeader">Feedback</h2>
+    <div class="date" id="feedbackDate"></div>
+    <textarea id="editableFeedback" readonly></textarea>
+    <button onclick="copyFeedback()" class="btn-secondary" id="copyBtn">📋 Copy Feedback</button>
+</div>
 
 <footer>Created by <b>Young Learners Curriculum</b> © 2025</footer>
 
 <script>
 let selectedStars = 0;
-const stars = document.querySelectorAll('#stars span');
-stars.forEach(star => {
-    star.addEventListener('click', function() {
-        selectedStars = this.getAttribute('data-value');
-        stars.forEach(s => s.classList.remove('gold'));
+const starElems = document.querySelectorAll('#stars span');
+starElems.forEach(el => {
+    el.addEventListener('click', () => {
+        selectedStars = parseInt(el.getAttribute('data-value'));
+        starElems.forEach(s => s.classList.remove('selected'));
         for (let i = 0; i < selectedStars; i++) {
-            stars[i].classList.add('gold');
+            starElems[i].classList.add('selected');
         }
     });
 });
 
-function capitalizeName(name) {
-    return name.charAt(0).toUpperCase() + name.slice(1);
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
 }
 
 function generateTeacherFeedback() {
-    let nameInput = document.getElementById("studentName").value.trim();
-    const name = nameInput ? capitalizeName(nameInput) : "The student";
+    const rawName = document.getElementById("studentName").value.trim();
+    const name = rawName || "The student";
     const focus = document.getElementById("lessonFocus").value;
     const participation = document.getElementById("participation").value;
     const strength = document.getElementById("strength").value;
-    const nextStep = document.getElementById("nextStep").value;
     const teacherComment = document.getElementById("teacherComment").value.trim();
 
-    let feedbackText = `${name} had a ${participation.toLowerCase()} lesson today! \nThey did well in ${focus.toLowerCase()}, and ${name} showed ${strength.toLowerCase()}. \nNext step: ${nextStep.toLowerCase()}.`;
-
-    if (selectedStars > 0) {
-        feedbackText += `\n\n⭐ Lesson Rating: ${selectedStars}/5`;
+    if (!teacherComment) {
+        alert('Please add a comment before generating feedback! ✏️');
+        return;
+    }
+    if (selectedStars === 0) {
+        alert('Please rate the lesson by clicking on the stars! ⭐');
+        return;
     }
 
-    if (teacherComment) {
-        feedbackText += `\n\n💬 Teacher's Comment: ${teacherComment}`;
-    }
+    const dateStr = formatDate(new Date());
+    document.getElementById('summaryHeader').textContent = `Feedback for ${name}`;
+    document.getElementById('feedbackDate').textContent = dateStr;
 
-    document.getElementById("summary").innerHTML = `<h2>Feedback for ${name}</h2><textarea id="editableFeedback">${feedbackText}</textarea>`;
-    document.getElementById("summary").style.display = "block";
-    document.getElementById("copyBtn").style.display = "inline-block";
+    let feedback = `🎉 ${name} ${participation} during today's lesson, showing particular skill in ${focus.toLowerCase()}. `;
+    feedback += `They demonstrated ${strength} and participated actively throughout the session.`;
+    feedback += `\n\n💬\n${teacherComment}`;
+    feedback += `\n\n⭐️ Lesson Rating: ${'★'.repeat(selectedStars)} ${selectedStars}/5`;
+
+    const textarea = document.getElementById("editableFeedback");
+    textarea.value = feedback;
 
     document.getElementById("formContainer").style.display = "none";
+    document.getElementById("summary").style.display = "block";
+    document.getElementById("copyBtn").style.display = "inline-block";
 }
 
 function copyFeedback() {
-    const editable = document.getElementById("editableFeedback");
-    editable.select();
-    editable.setSelectionRange(0, 99999); // mobile support
-
-    try {
-        document.execCommand("copy"); // Fallback
-        navigator.clipboard.writeText(editable.value).catch(()=>{});
-        alert("✅ Feedback copied to clipboard!");
-    } catch (err) {
-        alert("❌ Could not copy. Please copy manually.");
-    }
+    const textarea = document.getElementById("editableFeedback");
+    textarea.removeAttribute('readonly');
+    textarea.select();
+    textarea.setSelectionRange(0, textarea.value.length);
+    alert("Text selected. Press Ctrl+C (or Cmd+C) to copy.");
+    textarea.setAttribute('readonly', true);
 }
 </script>
 
